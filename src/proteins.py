@@ -52,8 +52,8 @@ def get_protein_maps(accession, protein_data):
         })
     return pathway_maps
 
-def create_html(output_data, output_directory):
-    with open(f"{output_directory}/Reactome_Pathways_Maps.html", 'w', encoding='utf-8') as f:
+def create_html(output_data, output_file):
+    with open(output_file, 'w', encoding='utf-8') as f:
         for accession, reactome in output_data.items():
             f.write(f"<h1>{accession} ({reactome['name']})</h1>")
             if reactome["pathways_maps"]:
@@ -66,7 +66,7 @@ def create_html(output_data, output_directory):
             else:
                 f.write(f"<label>Nothing found</label>\n")
 
-def create_excel(output_data, output_directory):
+def create_excel(output_data, output_file):
     excel_data = {
         "Query": [],
         "Found": [],
@@ -90,6 +90,6 @@ def create_excel(output_data, output_directory):
             excel_data["Pathway names"].append("")
             excel_data["Pathway counts"].append(0)
     
-    brexcel.write_excel(excel_data, f"{output_directory}/Reactome_Pathways_Table.xlsx")
+    brexcel.write_excel(excel_data, output_file)
 
 
