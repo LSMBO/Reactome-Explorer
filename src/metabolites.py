@@ -55,8 +55,8 @@ def get_metabolite_maps(metabolite_data):
             })
     return pathway_maps
 
-def create_html(output_data, output_directory):
-    with open(f"{output_directory}/Reactome_Pathways_Maps.html", 'w', encoding='utf-8') as f:
+def create_html(output_data, output_file):
+    with open(output_file, 'w', encoding='utf-8') as f:
         f.write('<label><input type="checkbox" id="filterHumanCheckbox" onclick="filterHuman()"> Only human</label>\n')
         f.write('<script>\n')
         f.write('function filterHuman() {\n')
@@ -104,7 +104,7 @@ def create_html(output_data, output_directory):
             else:
                 f.write(f"<label>Nothing found</label>\n")
 
-def create_excel(output_data, output_directory):
+def create_excel(output_data, output_file):
     excel_data = {
         "Query": [],
         "Found": [],
@@ -136,4 +136,4 @@ def create_excel(output_data, output_directory):
             excel_data["Pathway names"].append("")
             excel_data["Pathway counts"].append(0)
     
-    brexcel.write_excel(excel_data, f"{output_directory}/Reactome_Pathways_Table.xlsx")
+    brexcel.write_excel(excel_data, output_file)

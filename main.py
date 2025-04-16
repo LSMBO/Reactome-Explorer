@@ -11,7 +11,10 @@ import tqdm as tqdm
 parser = argparse.ArgumentParser()
 parser.add_argument("-mode", choices=["metabolites", "proteins"], required=True)
 parser.add_argument("-accessions", required=True)
-parser.add_argument("--output-directory", default=".", required=False)
+parser.add_argument("--output-html", default="./Reactome_Pathways_Maps.html", required=False)
+parser.add_argument("--output-excel", default="./Reactome_Pathways_Maps.xlsx", required=False)
+parser.add_argument("--output-json", default="./Reactome_Pathways.json", required=False)
+
 args = parser.parse_args()
 
 output_data = {}
@@ -31,12 +34,12 @@ for accession, reactome_data in output_data.items():
     elif args.mode == "proteins":
         output_data[accession]["pathways_maps"] = prot.get_protein_maps(accession, reactome_data)
 
-with open(f"{args.output_directory}/Reactome_Pathways.json", "w") as f:
+with open(args.output_json, "w") as f:
     ujson.dump(output_data, f, indent=2)
 
 if args.mode == "metabolites":
-    metabo.create_html(output_data, args.output_directory)
-    metabo.create_excel(output_data, args.output_directory)
+    metabo.create_html(output_data, args.output_html)
+    metabo.create_excel(output_data, args.output_excel)
 elif args.mode == "proteins":
-    prot.create_html(output_data, args.output_directory)
-    prot.create_excel(output_data, args.output_directory)
+    prot.create_html(output_data, args.output_html)
+    prot.create_excel(output_data, args.output_excel)
